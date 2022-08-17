@@ -4,17 +4,21 @@ import NotFoundError from '../erros/NotFoundError';
 import JwtService from './JwtService';
 import passwordService from './passwordService';
 
-interface LoginUser {
-  loginUser(email: string, password: string): Promise<string>;
+export interface ILogin {
+  email: string;
+  password: string;
+}
+export interface IUserService {
+  loginUser({ email, password }: ILogin): Promise<string>;
 }
 
-export default class UserService implements LoginUser {
+export default class UserService implements IUserService {
   private db = User;
 
-  async loginUser(email: string, password: string): Promise<string> {
-    const user = await this.db.findOne({ where: { email, password } });
+  async loginUser({ email, password }: ILogin): Promise<string> {
+    const user = await this.db.findOne({ where: { email } });
 
-    if (!user) throw new NotFoundError(404, 'User not Found!');
+    if (!user) throw new NotFoundError(401, 'Incorrect email or password');
 
     const verify = passwordService.comparePassword(password, user.password);
     if (!verify) throw new InvalidCredentials(400, 'Dados inválidos');
