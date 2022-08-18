@@ -13,6 +13,7 @@ export interface IMatche extends Matches {
 export interface IMatchesService {
   getAll(filterProgress: boolean): Promise<IMatche[]>
   createMatches(matche: Matches): Promise<Matches>
+  finishMatches(id: number): Promise<void>
 }
 
 export default class MatchesService implements IMatchesService {
@@ -48,5 +49,11 @@ export default class MatchesService implements IMatchesService {
     const createdMatche = await this.db
       .create({ homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress: true });
     return createdMatche;
+  }
+
+  async finishMatches(id: number): Promise<void> {
+    await this.db.update({ inProgress: false }, {
+      where: { id },
+    });
   }
 }
