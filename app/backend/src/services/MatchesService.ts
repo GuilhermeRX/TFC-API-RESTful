@@ -11,24 +11,33 @@ export interface IMatche extends Matches {
 }
 
 export interface IMatchesService {
-  getAll(): Promise<IMatche[]>
+  getAll(filterProgress: boolean): Promise<IMatche[]>
 }
 
 export default class MatchesService implements IMatchesService {
   private db = Matches;
-  async getAll(): Promise<IMatche[]> {
+  private teamHome = {
+    model: Team,
+    as: 'teamHome',
+    attributes: ['teamName'],
+  };
+
+  private teamAway = {
+    model: Team,
+    as: 'teamAway',
+    attributes: ['teamName'],
+  };
+
+  async getAll(filterProgress: boolean): Promise<IMatche[]> {
+    if (filterProgress) {
+      const matches = await this.db.findAll({
+        include: [this.teamHome, this.teamAway],
+        where: { inProgress: true },
+      });
+      return matches as IMatche[];
+    }
     const matches = await this.db.findAll({
-      include: [{
-        model: Team,
-        as: 'teamHome',
-        attributes: ['teamName'],
-      },
-      {
-        model: Team,
-        as: 'teamAway',
-        attributes: ['teamName'],
-      },
-      ],
+      include: [this.teamHome, this.teamAway],
     });
     return matches as IMatche[];
   }
