@@ -7,6 +7,7 @@ export interface ITeam {
 
 export interface ITeamService {
   getAll(): Promise<ITeam[]>
+  getById(id: number): Promise<ITeam>
 }
 
 export default class TeamService implements ITeamService {
@@ -15,5 +16,10 @@ export default class TeamService implements ITeamService {
   async getAll(): Promise<ITeam[]> {
     const teams = await this.db.findAll();
     return teams;
+  }
+
+  async getById(id: number): Promise<ITeam> {
+    const team = await this.db.findByPk(id);
+    return team as ITeam;
   }
 }
