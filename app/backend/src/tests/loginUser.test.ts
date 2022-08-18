@@ -26,6 +26,14 @@ const errorPasswordMock = {
   password: "any_password"
 }
 
+const userMock = {
+  id: 6,
+  username: 'any_name',
+  role: 'admin',
+  email: 'any_email',
+  password: "any_password",
+}
+
 const tokenMock = 'any_token';
 
 describe('Testa a rota de login', () => {
@@ -78,4 +86,30 @@ describe('Testa a rota de login', () => {
     expect(response.status).to.equal(400);
     expect(message).to.equal('All fields must be filled');
   });
+
+  it('Ao fazer uma requisição para login/validate com o token inválido retorna status "400" e "Token inválido"', async () => {
+
+    const response = await chai.request(app)
+      .get('/login/validate')
+      .set('authorization', 'any_token');
+
+    const { message } = response.body;
+    expect(response.status).to.equal(400);
+    expect(message).to.equal('Token inválido');
+  });
+
+  it('Ao fazer uma requisição para login/validate com o token correto retorna status "200" e a roule do usuário', async () => {
+    Sinon.stub(jwt, 'verify').returns(userMock as unknown as any);
+    Sinon.stub(User, 'findOne').resolves(userMock as User)
+
+    const response = await chai.request(app)
+      .get('/login/validate')
+      .set('authorization', 'any_token');
+
+    const { role } = response.body;
+    expect(response.status).to.equal(200);
+    expect(role).to.equal('admin');
+  });
+
+
 });

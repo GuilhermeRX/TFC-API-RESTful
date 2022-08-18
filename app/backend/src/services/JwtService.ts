@@ -13,7 +13,7 @@ export default class JwtService {
       const secret = process.env.JWT_SECRET as string;
       const data = jwt.verify(token, secret);
       return data as jwt.JwtPayload;
-    } catch (_err) {
+    } catch (err) {
       throw new ValidationError(400, 'Token inválido');
     }
   }
