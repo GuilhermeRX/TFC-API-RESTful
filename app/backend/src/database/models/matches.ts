@@ -7,7 +7,7 @@ export default class Matches extends Model {
   homeTeam!: number;
   homeTeamGoals!: number;
   awayTeam!: number;
-  awayTeamGols!: number;
+  awayTeamGoals!: number;
   inProgress!: number;
 }
 
