@@ -10,6 +10,7 @@ export interface ILogin {
 }
 export interface IUserService {
   loginUser({ email, password }: ILogin): Promise<string>;
+  getUser(token: string): Promise<User>
 }
 
 export default class UserService implements IUserService {
@@ -24,5 +25,11 @@ export default class UserService implements IUserService {
     if (!verify) throw new InvalidCredentials(400, 'Dados inválidos');
 
     return JwtService.sign({ email });
+  }
+
+  async getUser(token: string): Promise<User> {
+    const data = JwtService.validateToken(token);
+    const user = await this.db.findOne({ where: { email: data.email } });
+    return user as User;
   }
 }
