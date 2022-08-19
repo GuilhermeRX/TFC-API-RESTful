@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import MatchesService from '../services/MatchesService';
+import validateMatche from '../utils/validateMatche';
 
 export default class MatchesController {
   constructor(private matchesService: MatchesService) { }
@@ -13,6 +14,7 @@ export default class MatchesController {
   }
 
   async createMatches(req: Request, res: Response) {
+    validateMatche(req.body);
     const matches = await this.matchesService.createMatches(req.body);
     res.status(201).json(matches);
   }
