@@ -11,10 +11,16 @@ export interface IMatche extends Matches {
   }
 }
 
+export interface IUpdateMatche {
+  homeTeamGoals: number
+  awayTeamGoals: number
+}
+
 export interface IMatchesService {
   getAll(filterProgress: boolean): Promise<IMatche[]>
   createMatches(matche: Matches): Promise<Matches>
   finishMatches(id: number): Promise<void>
+  updateMatches(data: IUpdateMatche, id: number): Promise<void>
 }
 
 export default class MatchesService implements IMatchesService {
@@ -61,6 +67,13 @@ export default class MatchesService implements IMatchesService {
 
   async finishMatches(id: number): Promise<void> {
     await this.db.update({ inProgress: false }, {
+      where: { id },
+    });
+  }
+
+  async updateMatches(data: IUpdateMatche, id: number): Promise<void> {
+    const { homeTeamGoals, awayTeamGoals } = data;
+    await this.db.update({ homeTeamGoals, awayTeamGoals }, {
       where: { id },
     });
   }
