@@ -1,5 +1,6 @@
 import Matches from '../database/models/matches';
 import Team from '../database/models/teams';
+import ValidationError from '../erros/ValidationError';
 
 export interface IMatche extends Matches {
   teamHome: {
@@ -46,6 +47,13 @@ export default class MatchesService implements IMatchesService {
 
   async createMatches(matche: Matches): Promise<Matches> {
     const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = matche;
+
+    const verifyHomeTeam = await Team.findByPk(homeTeam);
+    const verifyAwayTeam = await Team.findByPk(awayTeam);
+
+    const message = 'There is no team with such id!';
+    if (!verifyHomeTeam || !verifyAwayTeam) throw new ValidationError(404, message);
+
     const createdMatche = await this.db
       .create({ homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress: true });
     return createdMatche;

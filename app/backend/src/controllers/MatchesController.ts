@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import JwtService from '../services/JwtService';
 import MatchesService from '../services/MatchesService';
 import validateMatche from '../utils/validateMatche';
 
@@ -14,6 +15,8 @@ export default class MatchesController {
   }
 
   async createMatches(req: Request, res: Response) {
+    const { authorization } = req.headers;
+    JwtService.validateToken(authorization as string);
     validateMatche(req.body);
     const matches = await this.matchesService.createMatches(req.body);
     res.status(201).json(matches);
