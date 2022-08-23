@@ -87,15 +87,15 @@ describe('Testa a rota de login', () => {
     expect(message).to.equal('All fields must be filled');
   });
 
-  it('Ao fazer uma requisição para login/validate com o token inválido retorna status "400" e "Token inválido"', async () => {
+  it('Ao fazer uma requisição para login/validate com o token inválido retorna status "401" e "Token must be a valid token"', async () => {
 
     const response = await chai.request(app)
       .get('/login/validate')
       .set('authorization', 'any_token');
 
     const { message } = response.body;
-    expect(response.status).to.equal(400);
-    expect(message).to.equal('Token inválido');
+    expect(response.status).to.equal(401);
+    expect(message).to.equal('Token must be a valid token');
   });
 
   it('Ao fazer uma requisição para login/validate com o token correto retorna status "200" e a roule do usuário', async () => {
