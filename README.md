@@ -11,8 +11,8 @@
 - Desenvolver uma API (utilizando o método TDD) e também integrar - através do docker-compose - as aplicações para que elas funcionem consumindo um banco de dados.
 
 ### :rocket: Começando
-1. ``$ git clone git@github.com:GuilhermeRX/Trybe-Futebol-Clube.git``
-2. ``$ cd Trybe-Futebol-Clube``
+1. ``$ git clone git@github.com:GuilhermeRX/TFC-API-RESTful.git``
+2. ``$ cd TFC-API-RESTful``
 3. ``$ npm install``
 4. Inicialização do compose com script de apoio ``$ npm run compose:up``
     - Para dropar a aplicação você pode rodar ``$ npm run compose:down``
