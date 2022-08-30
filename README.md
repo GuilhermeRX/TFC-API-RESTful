@@ -18,6 +18,8 @@
     - Para dropar a aplicação você pode rodar ``$ npm run compose:down``
 5. Para rodar os testes, abra um novo WorkSpace apartir de app/backend/ e em seguida ``$ npm run test``
 
+<img src='./assets/tests.png'/>
+
 ### 🔒 Credenciais para logar na aplicação
 
   #### Administrador
@@ -29,9 +31,6 @@
   
   #### Deploy Link
     https://trybefutebolclube.netlify.app/
-
-
-<img src='./assets/tests.png'/>
 
 ### 🧰  Ferramentas utilizadas
 <div align='left'>
