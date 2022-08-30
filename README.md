@@ -32,5 +32,6 @@
   <img src='https://img.shields.io/badge/chai-A30701?style=for-the-badge&logo=chai&logoColor=white'/>
 </div>
 
+**PS: O frontEnd da aplicação foi todo desenvolvido pelo time da Trybe
 
 <p align="left"> Por Luiz Guilherme 💚</p>
